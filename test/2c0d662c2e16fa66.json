@@ -1,0 +1,14 @@
+{
+  "filetype": "TYPE_KEY",
+  "keyname": "my key",
+  "description": "",
+  "keychain_version": "0.13",
+  "creation_time": "2019-01-25T17:11:06",
+  "usage_time": "2019-01-30T09:10:54",
+  "keyinfo": {
+    "encrypted": false,
+    "curve_type": "secp256k1",
+    "priv_key_data": "920bca893ca29df824858d2e333a159a4d98d1f3c5b5ce76fe236ceb09ae273e",
+    "public_key": "08d6770d8219923fe25a4d6aeb2c171253d5de3bc225f09dbfb2cb93ed837be1a80fdd3af5046b8f1f5412e5b321dcc3c25be9f4dd285250421ea55071794277"
+  }
+}
