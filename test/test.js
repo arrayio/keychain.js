@@ -34,13 +34,13 @@ describe("Create and sign", () => {
   const { sign, signTransaction } = Module.web3Override(web3);
   const Keychain = Module.Keychain;
 
-  // it('Select key', async() => {
-  //   const keychain = await Keychain.create();
-  //   const data = await keychain.selectKey();
-  //   selectedKey = data.result;
-  //   console.log('selectedKey: ', selectedKey);
-  //   should.exist(selectedKey);
-  // });
+  it('Select key', async() => {
+    const keychain = await Keychain.create();
+    const data = await keychain.selectKey();
+    selectedKey = data.result;
+    console.log('selectedKey: ', selectedKey);
+    should.exist(selectedKey);
+  });
 
   it('Sign with web3', async () => {
     signResWeb3 = await web3.eth.accounts.sign(message, privateKey);
