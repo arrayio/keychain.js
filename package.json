@@ -1,6 +1,6 @@
 {
   "name": "keychain.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "KeyChain npm module",
   "main": "./lib/index.js",
   "scripts": {
