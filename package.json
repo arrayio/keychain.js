@@ -13,7 +13,6 @@
   },
   "license": "ISC",
   "dependencies": {
-    "bitcoinjs-lib": "3.3.2",
     "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^6.0.0",
     "websocket": "^1.0.28",

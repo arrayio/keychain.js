@@ -38,13 +38,11 @@ describe("Create and sign", () => {
     const keychain = await Keychain.create();
     const data = await keychain.selectKey();
     selectedKey = data.result;
-    console.log('selectedKey: ', selectedKey);
     should.exist(selectedKey);
   });
 
   it('Sign with web3', async () => {
     signResWeb3 = await web3.eth.accounts.sign(message, privateKey);
-    console.log('signResWeb3: ', signResWeb3);
     expect(signResWeb3).to.have.property('message');
   });
 
