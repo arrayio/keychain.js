@@ -30,9 +30,7 @@ describe("Create and sign", () => {
   let selectedKey;
   const privateKey = '0x920bca893ca29df824858d2e333a159a4d98d1f3c5b5ce76fe236ceb09ae273e';
   const message = '12345';
-  const Module = require('../lib/index');
-  const { sign, signTransaction } = Module.web3Override(web3);
-  const Keychain = Module.Keychain;
+  const { Keychain, keychainWeb3 } = require('../lib/index');
 
   it('Select key', async() => {
     const keychain = await Keychain.create();
@@ -52,23 +50,29 @@ describe("Create and sign", () => {
   });
 
   it('Sign with overridden web3', async () => {
-    web3.eth.accounts.sign = sign;
-    web3.eth.accounts.signTransaction = signTransaction;
+    web3.eth.accounts.sign = keychainWeb3.sign;
     signResKch = await web3.eth.accounts.sign(message, selectedKey);
     expect(signResKch).to.have.property('signature');
+    expect(signResKch).to.deep.equal(signResWeb3);
+  });
+
+  it('Sign with binded web3', async () => {
+    signResKch = await keychainWeb3.sign.bind(web3)(message, selectedKey);
+    expect(signResKch).to.have.property('signature');
+    expect(signResKch).to.deep.equal(signResWeb3);
   });
 
   it('Sign transaction with overridden web3', async () => {
+    web3.eth.accounts.signTransaction = keychainWeb3.signTransaction;
     resKch = await web3.eth.accounts.signTransaction(transactionParams, selectedKey);
     expect(resKch).to.have.property('rawTransaction');
-  });
-
-  it('Overridden web3 signTransaction valid', async () => {
     expect(resKch).to.deep.equal(resWeb3);
   });
 
-  it('Overriden web3 sign valid', async () => {
-    expect(signResKch).to.deep.equal(signResWeb3);
+  it('Sign transaction with binded web3', async () => {
+    resKch = await keychainWeb3.signTransaction.bind(web3)(transactionParams, selectedKey);
+    expect(resKch).to.have.property('rawTransaction');
+    expect(resKch).to.deep.equal(resWeb3);
   });
 
 });
