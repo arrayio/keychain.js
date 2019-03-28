@@ -15,8 +15,7 @@
   "dependencies": {
     "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^6.0.0",
-    "websocket": "^1.0.28",
-    "websocket-as-promised": "^0.9.0"
+    "websocket": "^1.0.28"
   },
   "devDependencies": {
     "chai": "^4.2.0",

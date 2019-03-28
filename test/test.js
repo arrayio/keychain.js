@@ -2,10 +2,8 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 
 const Web3 = require('web3');
-
 const API_KEY = 'https://ropsten.infura.io/v3/046804e3dd3240b09834531326f310cf';
-
-let web3 = new Web3(new Web3.providers.HttpProvider(API_KEY));
+const web3 = new Web3(new Web3.providers.HttpProvider(API_KEY));
 
 const to = '0xE8899BA12578d60e4D0683a596EDaCbC85eC18CC';
 const value = 100;
@@ -33,20 +31,32 @@ describe("Create and sign", () => {
   const { Keychain, keychainWeb3 } = require('../lib/index');
 
   it('Select key', async() => {
-    const keychain = await Keychain.create();
-    const data = await keychain.selectKey();
-    selectedKey = data.result;
+    const keychain = new Keychain();
+    selectedKey = await keychain.selectKey();
     should.exist(selectedKey);
-  });
-
-  it('Sign with web3', async () => {
-    signResWeb3 = await web3.eth.accounts.sign(message, privateKey);
-    expect(signResWeb3).to.have.property('message');
   });
 
   it('Sign transaction with web3', async () => {
     resWeb3 = await web3.eth.accounts.signTransaction(transactionParams, privateKey);
     expect(resWeb3).to.have.property('rawTransaction');
+  });
+
+  it('Sign transaction with overridden web3', async () => {
+    web3.eth.accounts.signTransaction = keychainWeb3.signTransaction;
+    resKch = await web3.eth.accounts.signTransaction(transactionParams, selectedKey);
+    expect(resKch).to.have.property('rawTransaction');
+    expect(resKch).to.deep.equal(resWeb3);
+  });
+
+  it('Sign transaction with binded web3', async () => {
+    resKch = await keychainWeb3.signTransaction.bind(web3)(transactionParams, selectedKey);
+    expect(resKch).to.have.property('rawTransaction');
+    expect(resKch).to.deep.equal(resWeb3);
+  });
+
+  it('Sign with web3', async () => {
+    signResWeb3 = await web3.eth.accounts.sign(message, privateKey);
+    expect(signResWeb3).to.have.property('message');
   });
 
   it('Sign with overridden web3', async () => {
@@ -62,17 +72,36 @@ describe("Create and sign", () => {
     expect(signResKch).to.deep.equal(signResWeb3);
   });
 
-  it('Sign transaction with overridden web3', async () => {
-    web3.eth.accounts.signTransaction = keychainWeb3.signTransaction;
-    resKch = await web3.eth.accounts.signTransaction(transactionParams, selectedKey);
-    expect(resKch).to.have.property('rawTransaction');
-    expect(resKch).to.deep.equal(resWeb3);
+  it('Should unlock a key', async () => {
+    const keychain = new Keychain();
+    await keychain.unlock(selectedKey, 45);
+    const signResult = await keychain.signTrx(  "eb0885098bca5a00825208948ec6977b1255854169e5f9f8f163f371bcf1ffd287038d7ea4c6800080038080",
+        selectedKey,
+      "ethereum"
+    );
+    should.exist(signResult);
   });
 
-  it('Sign transaction with binded web3', async () => {
-    resKch = await keychainWeb3.signTransaction.bind(web3)(transactionParams, selectedKey);
-    expect(resKch).to.have.property('rawTransaction');
-    expect(resKch).to.deep.equal(resWeb3);
+  it('Should lock all keys', async () => {
+    const keychain = new Keychain();
+    await keychain.lock();
+    const signResult = await keychain.signTrx(  "eb0885098bca5a00825208948ec6977b1255854169e5f9f8f163f371bcf1ffd287038d7ea4c6800080038080",
+      selectedKey,
+      "ethereum"
+    );
+    should.exist(signResult);
+  });
+
+  it('Should run about method', async () => {
+    const keychain = new Keychain();
+    const about = await keychain.about();
+    should.exist(about);
+  });
+
+  it('Should run version method', async () => {
+    const keychain = new Keychain();
+    const version = await keychain.version();
+    should.exist(version);
   });
 
 });
