@@ -16,8 +16,8 @@ const gasPrice = 100;
 const chainId = 3;
 
 const transactionParams = {
-  nonce,
-  gasPrice,
+  // nonce,
+  // gasPrice,
   to,
   value,
   data,
