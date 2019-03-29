@@ -44,13 +44,13 @@ describe("Create and sign", () => {
   });
 
   it('Sign transaction with overridden web3', async () => {
-    web3.eth.accounts.signTransaction = keychainWeb3.signTransaction;
+    web3.eth.accounts.signTransaction = keychainWeb3.signTransaction.bind(web3);
     resKch = await web3.eth.accounts.signTransaction(transactionParams, selectedKey);
     expect(resKch).to.have.property('rawTransaction');
     expect(resKch).to.deep.equal(resWeb3);
   });
 
-  it('Sign transaction with binded web3', async () => {
+  it('Sign transaction without overriding web3', async () => {
     resKch = await keychainWeb3.signTransaction.bind(web3)(transactionParams, selectedKey);
     expect(resKch).to.have.property('rawTransaction');
     expect(resKch).to.deep.equal(resWeb3);
@@ -62,13 +62,13 @@ describe("Create and sign", () => {
   });
 
   it('Sign with overridden web3', async () => {
-    web3.eth.accounts.sign = keychainWeb3.sign;
+    web3.eth.accounts.sign = keychainWeb3.sign.bind(web3);
     signResKch = await web3.eth.accounts.sign(message, selectedKey);
     expect(signResKch).to.have.property('signature');
     expect(signResKch).to.deep.equal(signResWeb3);
   });
 
-  it('Sign with binded web3', async () => {
+  it('Sign without overriding web3', async () => {
     signResKch = await keychainWeb3.sign.bind(web3)(message, selectedKey);
     expect(signResKch).to.have.property('signature');
     expect(signResKch).to.deep.equal(signResWeb3);
