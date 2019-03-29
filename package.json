@@ -1,8 +1,9 @@
 {
   "name": "keychain.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "KeyChain npm module",
   "main": "./lib/index.js",
+  "browser": "./dist/keychain.js",
   "scripts": {
     "test": "mocha --timeout 15000 --reporter spec",
     "build": "browserify ./lib/src/index.js -o ./dist/keychain.js"
@@ -31,5 +32,7 @@
     "lib": "lib",
     "test": "test"
   },
-  "browser": "./dist/keychain.js"
+  "keywords": [
+    "KeyChain"
+  ]
 }
