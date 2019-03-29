@@ -1,5 +1,7 @@
 const should = require('chai').should();
-const expect = require('chai').expect;
+const chai = require('chai');
+const expect = chai.expect;
+chai.use(require('chai-as-promised'))
 
 const Web3 = require('web3');
 const API_KEY = 'https://ropsten.infura.io/v3/046804e3dd3240b09834531326f310cf';
@@ -102,6 +104,11 @@ describe("Create and sign", () => {
     const keychain = new Keychain();
     const version = await keychain.version();
     should.exist(version);
+  });
+
+  it('Checks if an unknown command throws an error', async () => {
+    const keychain = new Keychain();
+    await expect(keychain.method({command: 'unknownCommand'})).to.be.rejected;
   });
 
 });
