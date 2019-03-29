@@ -11,19 +11,20 @@
 
 * Sign ethereum transaction 
 ```javascript
-
-  import { web3Override, Keychain } from 'web3override'
-
-  // create new key in Keychain
-  const keyInstance = await Keychain.create();
-   
-  const data = await keyInstance.selectKey();
-  const key = data.result;
-  await keyInstance.term();
-  web3.eth.accounts.signTransaction = web3Override(web3).signTransaction;
-
-  // now we use web3 with keychain
-  await web3.eth.accounts.signTransaction(transactionParams, key); // overriden web3 function usage
+const { Keychain, keychainWeb3 } = require('keychain.js');
+const Web3 = require('web3');
+const API_KEY = 'https://ropsten.infura.io/v3/YOUR_ID';
+const web3 = new Web3(new Web3.providers.HttpProvider(API_KEY));
+const transactionParams = {
+  to: '0xE8899BA12578d60e4D0683a596EDaCbC85eC18CC',
+  value: 100,
+  gas: 21000
+};
+// now we are using web3 with keychain
+web3.eth.accounts.signTransaction = keychainWeb3.signTransaction.bind(web3);
+const keychain = new Keychain();
+keychain.selectKey()
+  .then(publicKey => web3.eth.accounts.signTransaction(transactionParams, publicKey));
 ```
 
 * Sign & build ready for broadcast bitcoin transaction 
