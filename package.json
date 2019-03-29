@@ -4,12 +4,13 @@
   "description": "KeyChain npm module",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --timeout 15000 --reporter spec"
+    "test": "mocha --timeout 15000 --reporter spec",
+    "build": "browserify ./lib/src/index.js -o ./dist/keychain.js"
   },
   "author": "Array.IO",
   "repository": {
     "type": "git",
-    "url": "arrayio/keychain.js"
+    "url": "git+https://github.com/arrayio/keychain.js.git"
   },
   "license": "ISC",
   "dependencies": {
@@ -21,5 +22,14 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "web3": "1.0.0-beta.46"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/arrayio/keychain.js/issues"
+  },
+  "homepage": "https://github.com/arrayio/keychain.js#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "browser": "./dist/keychain.js"
 }
