@@ -1,7 +1,7 @@
 {
   "name": "keychain.js",
   "version": "0.0.5",
-  "description": "KeyChain npm module",
+  "description": "KeyChain JavaScript API wrapper repository",
   "main": "./lib/index.js",
   "browser": "./dist/keychain.js",
   "scripts": {
@@ -11,9 +11,9 @@
   "author": "Array.IO",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arrayio/keychain.js.git"
+    "url": "https://github.com/arrayio/keychain.js.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^6.0.0",
@@ -31,9 +31,12 @@
   "homepage": "https://github.com/arrayio/keychain.js#readme",
   "directories": {
     "lib": "lib",
-    "test": "test"
+    "test": "test",
+    "example": "example"
   },
   "keywords": [
-    "KeyChain"
+    "KeyChain",
+    "JavaScript",
+    "API"
   ]
 }
