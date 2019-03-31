@@ -4,8 +4,7 @@ const { BigNumber } = require('bignumber.js');
 const { Keychain } = require('../lib'); // require('keychain.js') if you run it outside of keychain.js repository
 const API_URL = 'https://test-insight.bitpay.com/api';
 
-const txParams = {
-  from: 'myLrbwvwJN59quivKSxCxgiqLdCw8m7aDf',
+let txParams = {
   to: 'mqkrYyihgXVUZisi452KQ4tpTsaE8Tk8uj',
   amount: 0.0002,
   feeValue: 226,
@@ -21,9 +20,17 @@ const broadcastTx = (txRaw) =>
     headers: { 'Content-Type': 'application/json' }}
   ).then(data => data.json());
 
+const addressFromPublicKey = (publicKey) => {
+  const pubkey = Buffer.from(`03${publicKey.substr(0, 64)}`, 'hex');
+  const keyPair = bitcoin.ECPair.fromPublicKeyBuffer(pubkey, bitcoin.networks.testnet);
+  return keyPair.getAddress();
+};
+
 async function main() {
   const keychain = new Keychain();
   const selectedKey = await keychain.selectKey();
+
+  txParams = {...txParams, from: addressFromPublicKey(selectedKey)};
 
   const tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
   const unspents = await fetchUnspents(txParams.from);
