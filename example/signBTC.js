@@ -1,7 +1,7 @@
 const bitcoin = require ('bitcoinjs-lib');
 const fetch = require('node-fetch');
 const { BigNumber } = require('bignumber.js');
-const { Keychain } = require('keychain.js');
+const { Keychain } = require('../lib'); // require('keychain.js') if you run it outside of keychain.js repository
 const API_URL = 'https://test-insight.bitpay.com/api';
 
 const txParams = {
@@ -47,6 +47,7 @@ async function main() {
     'bitcoin'
   );
   console.log('rawHex: ', rawHex);
+  // uncomment to broadcast the transaction
   // const broadcastResult = await broadcastTx(rawHex);
   // console.log('broadcastResult: ', broadcastResult);
   // console.log('broadcastResult: ', `https://test-insight.bitpay.com/tx/${broadcastResult.txid}`);
