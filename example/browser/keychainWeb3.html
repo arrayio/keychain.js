@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KeyChain web3</title>
+</head>
+<body>
+<script src="../../dist/keychain.js"></script>
+<script src="../../dist/keychainWeb3.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+<script>
+  const endpoint = 'https://rinkeby.infura.io/v3/6e07edb991d64b9197996b7ff174de42';
+  const keychain = new Keychain();
+  const web3 = new Web3(endpoint);
+  const keychainWeb3 = new KeychainWeb3(keychain, web3);
+  const tx = { to: '0xE8899BA12578d60e4D0683a596EDaCbC85eC18CC', value: 100, gas: 21000 };
+  keychain.selectKey()
+    .then(publicKey => keychainWeb3.signTransaction(tx, publicKey))
+    .then(signedTx => web3.eth.sendSignedTransaction(signedTx.rawTransaction))
+    .then(result => console.log(`https://rinkeby.etherscan.io/tx/${result.transactionHash}`));
+</script>
+</body>
+</html>

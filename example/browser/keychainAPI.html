@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KeyChain API</title>
+</head>
+<body>
+<script src="../../dist/keychain.js"></script>
+<script>
+  const keychain = new Keychain();
+  keychain.selectKey().then(console.log);
+</script>
+</body>
+</html>

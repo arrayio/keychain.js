@@ -1,12 +1,12 @@
 {
   "name": "keychain.js",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "KeyChain JavaScript API wrapper repository",
   "main": "./lib/index.js",
   "browser": "./dist/keychain.js",
   "scripts": {
     "test": "mocha --timeout 15000 --reporter spec",
-    "build": "browserify ./lib/src/index.js -o ./dist/keychain.js"
+    "build": "browserify ./lib/src/keychain.js -o ./dist/keychain.js & browserify ./lib/src/keychainWeb3.js -o ./dist/keychainWeb3.js"
   },
   "author": "Array.IO",
   "repository": {
