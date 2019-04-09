@@ -28,25 +28,26 @@ async function main() {
   const keychain = new Keychain();
   const publicKey = await keychain.selectKey();
 
-  const txParams = {
+  const tx = {
     from: addressFromPublicKey(publicKey),
     to: 'mqkrYyihgXVUZisi452KQ4tpTsaE8Tk8uj',
     amount: 20000,
     feeValue: 226
   };
 
-  const tx = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
-  const unspents = await fetchUnspents(txParams.from);
+  const txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
+  const unspents = await fetchUnspents(tx.from);
   const totalUnspent = unspents.reduce((summ, { satoshis }) => summ + satoshis, 0);
-  const changeAmount = totalUnspent - txParams.amount - txParams.feeValue;
+  const changeAmount = totalUnspent - tx.amount - tx.feeValue;
 
-  unspents.forEach(({ txid, vout }) => tx.addInput(txid, vout, 0xfffffffe));
-  tx.addOutput(txParams.to, txParams.amount);
+  unspents.forEach(({ txid, vout }) => txb.addInput(txid, vout, 0xfffffffe));
+  txb.addOutput(tx.to, tx.amount);
   if (changeAmount > 546) {
-    tx.addOutput(txParams.from, changeAmount);
+    txb.addOutput(tx.from, changeAmount);
   }
 
-  const txRaw = tx.buildIncomplete();
+  const txRaw = txb.buildIncomplete();
+  // add input scripts to unsigned transaction https://github.com/bitcoinjs/bitcoinjs-lib/issues/1011#issuecomment-368394185
   unspents.forEach(({ scriptPubKey }, index) => txRaw.ins[index].script = Buffer.from(scriptPubKey, 'hex'));
   const rawHex = await keychain.signTrx(
     txRaw.toHex(),
