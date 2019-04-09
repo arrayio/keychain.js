@@ -27,18 +27,36 @@ keychain.selectKey()
 * Sign & build ready for broadcast bitcoin transaction 
 
 ```javascript
-  // import library
-  import { bitcoin, Keychain } from 'web3override';
+const keychain = new Keychain();
+const publicKey = await keychain.selectKey();
 
-  // tx - bitcoin.TransactionBuilder instance with inputs & outputs
-  const keyInstance = await Keychain.create();
-  const data = await keyInstance.selectKey();
-  const publicKey = data.result;
-  tx.inputs.forEach((input, index) => {
-    tx.prepareTx(index,  publicKey)
-  });
-  const txRawHex = await tx.buildTxKeychain(keyInstance, publicKey);
+const tx = {
+  from: addressFromPublicKey(publicKey),
+  to: 'mqkrYyihgXVUZisi452KQ4tpTsaE8Tk8uj',
+  amount: 20000,
+  feeValue: 226
+};
 
+const txb = new bitcoin.TransactionBuilder(bitcoin.networks.testnet);
+const unspents = await fetchUnspents(tx.from);
+const totalUnspent = unspents.reduce((summ, { satoshis }) => summ + satoshis, 0);
+const changeAmount = totalUnspent - tx.amount - tx.feeValue;
+
+unspents.forEach(({ txid, vout }) => txb.addInput(txid, vout, 0xfffffffe));
+txb.addOutput(tx.to, tx.amount);
+if (changeAmount > 546) {
+  txb.addOutput(tx.from, changeAmount);
+}
+
+const txRaw = txb.buildIncomplete();
+// add input scripts to the unsigned transaction https://github.com/bitcoinjs/bitcoinjs-lib/issues/1011#issuecomment-368394185
+unspents.forEach(({ scriptPubKey }, index) => txRaw.ins[index].script = Buffer.from(scriptPubKey, 'hex'));
+const rawHex = await keychain.signTrx(
+  txRaw.toHex(),
+  publicKey,
+  'bitcoin'
+);
+// broadcast rawHex transaction
 ```
 
 **Run tests**
