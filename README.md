@@ -51,7 +51,7 @@ if (changeAmount > 546) {
 }
 
 const txRaw = txb.buildIncomplete();
-// add input scripts to the unsigned transaction https://github.com/bitcoinjs/bitcoinjs-lib/issues/1011#issuecomment-368394185
+// add input scripts to an unsigned transaction https://github.com/bitcoinjs/bitcoinjs-lib/issues/1011#issuecomment-368394185
 unspents.forEach(({ scriptPubKey }, index) => txRaw.ins[index].script = Buffer.from(scriptPubKey, 'hex'));
 const rawHex = await keychain.signTrx(
   txRaw.toHex(),
