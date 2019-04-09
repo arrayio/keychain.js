@@ -27,6 +27,8 @@ keychain.selectKey()
 * Sign & build ready for broadcast bitcoin transaction 
 
 ```javascript
+const { Keychain } = require('keychain.js');
+const bitcoin = require ('bitcoinjs-lib');
 const keychain = new Keychain();
 const publicKey = await keychain.selectKey();
 
