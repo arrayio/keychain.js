@@ -60,6 +60,7 @@ const rawHex = await keychain.signTrx(
 );
 // broadcast rawHex transaction
 ```
+Full example of signing and broadcasting bitcoin transaction can be found in [example/signBTC.js](example/signBTC.js)
 
 **Run tests**
 
