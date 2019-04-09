@@ -75,4 +75,3 @@ password: qwe
 
 ![alt image](https://raw.githubusercontent.com/cypherpunk99/web3override/master/screencast.gif)
 
-*TODO bitcoin tests*
