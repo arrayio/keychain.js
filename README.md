@@ -2,9 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/keychain.js.svg)](https://badge.fury.io/js/keychain.js)
 
-* `keychain.js` - Keychain class with ws connection initialization
-* `index.js` - override `web3.eth.accounts.signTransaction` method 
-* `test.js` - example usage together (`keychain` + `web3`) 
+* `keychain.js` - Keychain class for working with the KeyChain WebSocket
+* `keychainWeb3.js` - KeychainWeb3 class with methods `sign` and `singTransaction` for substituting `web3.eth.accounts.sign` and `web3.eth.accounts.signTransaction` methods
 
 **Usage**
 
