@@ -1,4 +1,4 @@
-const shared = require('./shared');
+const shared = require('./sharedWeb3');
 const { Keychain } = require('../lib/');
 
 describe("Create and sign with WebSocket KeyChain", () => {
