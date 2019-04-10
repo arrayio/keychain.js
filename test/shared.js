@@ -1,10 +1,10 @@
 const chai = require('chai');
 const expect = chai.expect;
 chai.use(require('chai-as-promised'));
+const { KeychainWeb3 } = require('../lib/index');
 
 const Web3 = require('web3');
 const API_KEY = 'https://ropsten.infura.io/v3/046804e3dd3240b09834531326f310cf';
-const web3 = new Web3(new Web3.providers.HttpProvider(API_KEY));
 
 const to = '0xE8899BA12578d60e4D0683a596EDaCbC85eC18CC';
 const value = 100;
@@ -24,13 +24,13 @@ const transactionParams = {
   chainId
 };
 
-describe("Create and sign", () => {
+exports.testKeychainWeb3 = function(keychain) {
+
   let signResKch, signResWeb3, resKch, resWeb3;
   const publicKey = '08d6770d8219923fe25a4d6aeb2c171253d5de3bc225f09dbfb2cb93ed837be1a80fdd3af5046b8f1f5412e5b321dcc3c25be9f4dd285250421ea55071794277';
   const privateKey = '0x920bca893ca29df824858d2e333a159a4d98d1f3c5b5ce76fe236ceb09ae273e';
   const message = '12345';
-  const { Keychain, KeychainWeb3 } = require('../lib/index');
-  const keychain = new Keychain();
+  const web3 = new Web3(API_KEY);
   const keychainWeb3 = new KeychainWeb3(keychain, web3);
 
   it('Sign transaction with web3', async () => {
@@ -68,6 +68,4 @@ describe("Create and sign", () => {
     expect(signResKch).to.have.property('signature');
     expect(signResKch).to.deep.equal(signResWeb3);
   });
-
-});
-
+};
