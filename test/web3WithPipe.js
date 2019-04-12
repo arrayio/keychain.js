@@ -1,6 +1,6 @@
 const shared = require('./sharedWeb3');
-const PipeKeychain = require('../lib/pipe');
+const Keychain = require('../lib/pipe');
 
 describe("Create and sign with pipe KeyChain", () => {
-  shared.testKeychainWeb3(new PipeKeychain());
+  shared.testKeychainWeb3(new Keychain(true));
 });
