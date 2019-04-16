@@ -11,8 +11,8 @@ const API_URL = 'https://test-insight.bitpay.com/api';
 const fetchUnspents = (address) =>
   fetch(`${API_URL}/addr/${address}/utxo`).then( data => data.json() );
 
-const addressFromPublicKey = (publicKey) => {
-  const pubkey = Buffer.from(`03${publicKey.substr(0, 64)}`, 'hex');
+const addressFromPublicKey = publicKey => {
+  const pubkey = bitcoinUtil.compressPublicKey(Buffer.from(publicKey, 'hex'));
   const keyPair = bitcoin.ECPair.fromPublicKeyBuffer(pubkey, bitcoin.networks.testnet);
   return keyPair.getAddress();
 };
@@ -66,7 +66,7 @@ describe('bitcoinjs-lib (transactions)', function () {
     const txRawBitcoinJS = txbBitcoinJS.buildIncomplete();
 
     expect(rawHex).to.equal(txRawBitcoinJS.toHex());
-  })
+  });
 
     it('can create a 1-to-1 Transaction', async () => {
       const publicKey = '9f50f51d63b345039a290c94bffd3180c99ed659ff6ea6b1242bca47eb93b59f36a13e1e9d3e9bad0187bf307ccf24b1273419a8fa011c9191b8b5eae8674c00';
