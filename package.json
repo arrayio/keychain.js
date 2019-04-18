@@ -20,7 +20,8 @@
     "websocket": "^1.0.28"
   },
   "devDependencies": {
-    "bitcoinjs-lib": "^5.0.2",
+    "bitcoinjs-lib-3-3-2": "npm:bitcoinjs-lib@3.3.2",
+    "bitcoinjs-lib-4-0-3": "npm:bitcoinjs-lib@4.0.3",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^5.2.0",
